@@ -20,8 +20,16 @@ function Player(name, marker) {
 };
 
 const gameController = (() => {
-    
+    const player1 = prompt('What is your name player1');
+    const player2 = prompt('What is your name player2');
+
+    const playerOne = new Player(player1, 'X');
+    const playerTwo = new Player(player2, 'O')
+
+    console.log(playerOne.name, playerOne.marker, playerTwo.name, playerTwo.marker)
 })
+
+gameController()
 
 
 
