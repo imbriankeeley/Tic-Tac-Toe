@@ -26,10 +26,37 @@ const gameController = (() => {
     const playerOne = new Player(player1, 'X');
     const playerTwo = new Player(player2, 'O')
 
-    console.log(playerOne.name, playerOne.marker, playerTwo.name, playerTwo.marker)
-})
+    let playerOneScore = 1;
+    let playerTwoScore = 0;
+    let gameState = 0;
+
+    function playRound() {
+        
+        
+        gameCheck();
+    };
+
+    function gameEnd() {
+        let winningPlayer = '';
+        if (playerOneScore > playerTwoScore) {
+            winningPlayer = player1;
+        } else {
+            winningPlayer = player2;
+        };
+        alert(`Congrats ${winningPlayer}, you won the game!`);
+    };
+
+    function gameCheck() {
+        gameState === 0 ? playRound() : gameEnd();
+    };
+
+    gameCheck();
+
+});
 
 gameController()
+
+
 
 
 
