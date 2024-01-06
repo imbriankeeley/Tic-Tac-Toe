@@ -28,7 +28,7 @@ const gameController = (() => {
 
     let playerOneScore = 1;
     let playerTwoScore = 0;
-    let gameState = 0;
+    let gameState = 1;
 
     function playRound() {
         
@@ -38,11 +38,8 @@ const gameController = (() => {
 
     function gameEnd() {
         let winningPlayer = '';
-        if (playerOneScore > playerTwoScore) {
-            winningPlayer = player1;
-        } else {
-            winningPlayer = player2;
-        };
+        playerOneScore > playerTwoScore ? winningPlayer = player1 : winningPlayer = player2;
+        
         alert(`Congrats ${winningPlayer}, you won the game!`);
     };
 
