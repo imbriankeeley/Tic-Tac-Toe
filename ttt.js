@@ -46,15 +46,37 @@ const gameController = (() => {
     const player2 = prompt('What is your name player2');
 
     const playerOne = new Player(player1, 'X');
-    const playerTwo = new Player(player2, 'O')
+    const playerTwo = new Player(player2, 'O');
+    let currentPlayer = playerOne;
 
-    let playerOneScore = 1;
+    /*let playerOneScore = 1;  This is unnecessary at the moment
     let playerTwoScore = 0;
-    let gameState = 1;
+    let gameState = 1;*/
 
-    function playRound() {
-        
-        
+    const playRound = () => {
+        gameBoard.printBoard();
+        const move = prompt(`${currentPlayer.name}, enter your move (row and column) seperately by a space:`).split(' ');
+        const row = parseInt(move[0], 10);
+        const column = parseInt(move[1], [10]);
+
+        if(gameBoard.updateBoard(row, column, currentPlayer.marker)) {
+            if(checkWin(row, column)) {
+                gameBoard.printBoard();
+                alert(`Congrats ${currentPlayer.name}, you won the game!`);
+                return;
+            }
+            if (isBoardFull()) {
+                gameBoard.printBoard();
+                alert.apply('It\'s a draw!');
+                return;
+            }
+            currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+            playRound();
+        } else {
+            alert("Invalid move, try again.");
+            playRound();
+        };
+
         gameCheck();
     };
 
