@@ -1,4 +1,4 @@
-
+// src/gameBoard.js
 const gameBoard = (() => {
     const rows = 3;
     const columns = 3;
@@ -24,11 +24,13 @@ const gameBoard = (() => {
         }
     };
 
+    const getBoard = () => board;
+
     return {
         printBoard,
         updateBoard,
         resetBoard,
-        board
+        getBoard,
     };
 })();
 

@@ -1,17 +1,16 @@
 // __tests__/gameController.test.js
-
-const gameBoard = require('../src/gameBoard');
 const gameController = require('../src/gameController');
-const player = require('../src/player');
+const gameBoard = require('../src/gameBoard');
 
 describe('Tic Tac Toe Game', () => {
     beforeEach(() => {
-        gameController.startGame();
+        gameController.startGame('Player 1', 'Player 2');
     });
 
     test('Player 1 should make a valid move', () => {
         const result = gameController.playRound(0, 0);
         expect(result).toBe('Next turn');
+        expect(gameBoard.getBoard()[0][0]).toBe('X');
     });
 
     test('Player 1 should not make an invalid move', () => {
