@@ -1,37 +1,54 @@
-// src/gameControllerOriginal.js
+// src/gameController.js
+const readline = require('readline');
 const gameBoard = require('./gameBoard');
 const Player = require('./player');
 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
 const gameController = (() => {
-    const player1 = prompt('What is your name player1');
-    const player2 = prompt('What is your name player2');
+    let playerOne;
+    let playerTwo;
+    let currentPlayer;
 
-    const playerOne = new Player(player1, 'X');
-    const playerTwo = new Player(player2, 'O');
-    let currentPlayer = playerOne;
+    const askQuestion = (question) => {
+        return new Promise((resolve) => rl.question(question, resolve));
+    };
 
-    const playRound = () => {
+    const initializePlayers = async () => {
+        const player1 = await askQuestion('What is your name player 1? ');
+        const player2 = await askQuestion('What is your name player 2? ');
+
+        playerOne = new Player(player1, 'X');
+        playerTwo = new Player(player2, 'O');
+        currentPlayer = playerOne;
+    };
+
+    const playRound = async () => {
         gameBoard.printBoard();
-        const move = prompt(`${currentPlayer.name}, enter your move (row and column) separated by a space:`).split(' ');
-        const row = parseInt(move[0], 10);
-        const column = parseInt(move[1], 10);
+        const move = await askQuestion(`${currentPlayer.name}, enter your move (row and column) separated by a space: `);
+        const [row, column] = move.split(' ').map(Number);
 
         if (gameBoard.updateBoard(row, column, currentPlayer.marker)) {
             if (checkWin(row, column)) {
                 gameBoard.printBoard();
-                alert(`Congrats ${currentPlayer.name}, you won the game!`);
+                console.log(`Congrats ${currentPlayer.name}, you won the game!`);
+                rl.close();
                 return;
             }
             if (isBoardFull()) {
                 gameBoard.printBoard();
-                alert('It\'s a draw!');
+                console.log('It\'s a draw!');
+                rl.close();
                 return;
             }
             currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
-            playRound();
+            await playRound();
         } else {
-            alert("Invalid move, try again.");
-            playRound();
+            console.log("Invalid move, try again.");
+            await playRound();
         }
     };
 
@@ -60,9 +77,10 @@ const gameController = (() => {
         return gameBoard.getBoard().every(row => row.every(cell => cell !== ''));
     };
 
-    const startGame = () => {
+    const startGame = async () => {
         gameBoard.resetBoard();
-        playRound();
+        await initializePlayers();
+        await playRound();
     };
 
     return { startGame };
@@ -70,6 +88,3 @@ const gameController = (() => {
 })();
 
 module.exports = gameController;
-
-
-

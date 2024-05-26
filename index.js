@@ -1,4 +1,3 @@
-//run game
-const gameController = require('./src/gameControllerOriginal');
+const gameController = require('./src/gameControllerNode');
 
 gameController.startGame();

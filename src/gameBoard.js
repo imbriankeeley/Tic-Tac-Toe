@@ -33,5 +33,3 @@ const gameBoard = (() => {
         getBoard,
     };
 })();
-
-module.exports = gameBoard;

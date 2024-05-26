@@ -1,5 +1,5 @@
 // __tests__/gameController.test.js
-const gameController = require('../src/gameController');
+const gameController = require('../src/gameControllerNode');
 const gameBoard = require('../src/gameBoard');
 
 describe('Tic Tac Toe Game', () => {

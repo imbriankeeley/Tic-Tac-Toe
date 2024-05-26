@@ -1,30 +1,39 @@
-// src/gameController.js
-const gameBoard = require('./gameBoard');
-const Player = require('./player');
-
+// src/gameControllerOriginal.js
 const gameController = (() => {
     let playerOne;
     let playerTwo;
     let currentPlayer;
 
-    const initializePlayers = (name1, name2) => {
-        playerOne = new Player(name1, 'X');
-        playerTwo = new Player(name2, 'O');
+    const initializePlayers = () => {
+        const player1 = prompt('What is your name player 1?');
+        const player2 = prompt('What is your name player 2?');
+
+        playerOne = new Player(player1, 'X');
+        playerTwo = new Player(player2, 'O');
         currentPlayer = playerOne;
     };
 
-    const playRound = (row, column) => {
+    const playRound = () => {
+        gameBoard.printBoard();
+        const move = prompt(`${currentPlayer.name}, enter your move (row and column) separated by a space:`).split(' ');
+        const [row, column] = move.map(Number);
+
         if (gameBoard.updateBoard(row, column, currentPlayer.marker)) {
             if (checkWin(row, column)) {
-                return `Congrats ${currentPlayer.name}, you won the game!`;
+                gameBoard.printBoard();
+                alert(`Congrats ${currentPlayer.name}, you won the game!`);
+                return;
             }
             if (isBoardFull()) {
-                return 'It\'s a draw!';
+                gameBoard.printBoard();
+                alert('It\'s a draw!');
+                return;
             }
             currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
-            return 'Next turn';
+            playRound();
         } else {
-            return "Invalid move, try again.";
+            alert("Invalid move, try again.");
+            playRound();
         }
     };
 
@@ -53,15 +62,13 @@ const gameController = (() => {
         return gameBoard.getBoard().every(row => row.every(cell => cell !== ''));
     };
 
-    const startGame = (name1, name2) => {
+    const startGame = () => {
         gameBoard.resetBoard();
-        initializePlayers(name1, name2);
+        initializePlayers();
+        playRound();
     };
 
-    return {
-        startGame,
-        playRound,
-    };
+    return { startGame };
+
 })();
 
-module.exports = gameController;
