@@ -1,2 +1,2 @@
 # Tic-Tac-Toe
-Creating a basic tic tac toe web app that will integrate knowledge of objects and closures to complete the logic.
+Using react to build a tic tac toe game from scratch. New features will be implemented for refinement soon.
