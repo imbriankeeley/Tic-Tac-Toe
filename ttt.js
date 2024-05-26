@@ -34,8 +34,6 @@ const gameBoard = (() => {
 
 
 
-
-
 function Player(name, marker) {
     this.name = name;
     this.marker = marker;
@@ -48,11 +46,7 @@ const gameController = (() => {
     const playerOne = new Player(player1, 'X');
     const playerTwo = new Player(player2, 'O');
     let currentPlayer = playerOne;
-
-    /*let playerOneScore = 1;  This is unnecessary at the moment
-    let playerTwoScore = 0;
-    let gameState = 1;*/
-
+    
     const playRound = () => {
         gameBoard.printBoard();
         const move = prompt(`${currentPlayer.name}, enter your move (row and column) seperately by a space:`).split(' ');
@@ -80,22 +74,37 @@ const gameController = (() => {
         gameCheck();
     };
 
-    function gameEnd() {
-        let winningPlayer = '';
-        playerOneScore > playerTwoScore ? winningPlayer = player1 : winningPlayer = player2;
-        
-        alert(`Congrats ${winningPlayer}, you won the game!`);
+    const checkWin = (row, column) => {
+        const marker = currentPlayer.marker;
+        const board = gameBoard.board;
+
+        const checkLine = (a, b, c) => (a === marker && b == marker && c === marker);
+
+        return (
+            checkLine(board[row][0], board[row][1], board[row][2]) ||
+            checkLine(board[0][column], board[1][column], board[2][column]) ||
+            (row === column && checkLine(board[0][0], board[1][1], board[2][2])) ||
+            (row + column === 2 && checkLine(board[0][2], board[1][1], board[2][0]))
+        );
     };
 
-    function gameCheck() {
-        gameState === 0 ? playRound() : gameEnd();
+    const isBoardFull = () => {
+        return gameBoard.board.every(row => row.every(cell => cell !== ''));
+    }
+
+    const startGame = () => {
+        gameBoard.resetBoard();
+        currentPlayer = playerOne;
+        playRound();
     };
 
-    gameCheck();
+    return { startGame };
 
 });
 
-gameController()
+
+
+gameController.startGame();
 
 
 
